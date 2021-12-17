@@ -42,6 +42,11 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.11.3'
     implementation 'org.slf4j:slf4j-api:1.7.25'
     implementation 'org.slf4j:slf4j-simple:1.7.25'
+    implementation 'org.yaml:snakeyaml:1.8'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.0.1'
+
+
+
 }
 
 application {

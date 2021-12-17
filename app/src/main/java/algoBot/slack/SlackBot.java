@@ -2,6 +2,7 @@ package algoBot.slack;
 
 import algoBot.helper.httpHelper.HttpConnection;
 import algoBot.helper.httpHelper.HttpHelper;
+import algoBot.helper.resourceReader.YamlReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,20 +16,26 @@ public class SlackBot {
 
     // TODO 타임아웃 등 202가 아닌 응답 핸들링하기
     public void sendMessage(SlackMessage message) throws Exception {
+        BotSecretDto botSecretDto = new YamlReader().readToMap("secret.yml");
+        String token = botSecretDto.token;
+        String channelId = botSecretDto.channelId;
+
         String chatPostMessageURL = "https://slack.com/api/chat.postMessage";
         HttpConnection connect = httpHelper.connect(chatPostMessageURL);
 
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/x-www-form-urlencoded");
-        headers.put("Authorization", "Bearer {봇 토큰}}");
+        headers.put("Authorization", "Bearer "+ token);
 
         Map<String, String> params = new HashMap<>();
-        params.put("channel", "{채널 ID}"); //bot-test
+        params.put("channel", channelId); //bot-test
         params.put("text", message.getContent());
 
         connect.setMethod("POST");
         connect.setHeaders(headers);
         connect.setParameters(params);
+
+
 
         String responseBody = connect.getResponseBody();
 

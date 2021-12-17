@@ -6,8 +6,10 @@ import org.slf4j.LoggerFactory;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-// TODO 시간대를 리스트로 반환하는 메서드 만들기 (스케쥴링할 때 편리하게)
 public class HowAreUToday {
     public static LocalDate TODAY_DATE;
     public static LocalDateTime START_TIME;
@@ -15,6 +17,10 @@ public class HowAreUToday {
     public static LocalDateTime PM7;
     public static LocalDateTime PM11;
     public static LocalDateTime AM5;
+
+    public List<LocalDateTime> getDailyTimeList() {
+        return new ArrayList<>(Arrays.asList(PM1, PM7, PM11, AM5));
+    }
 
     public static void setTodayDate() {
         Logger logger = LoggerFactory.getLogger(HowAreUToday.class);
