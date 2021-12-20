@@ -48,7 +48,7 @@ public class Scheduler {
 //        dailyTimer.schedule(getTaskAt(HowAreUToday.PM7), toDate(HowAreUToday.PM7));
 //        dailyTimer.schedule(getTaskAt(HowAreUToday.PM11), toDate(HowAreUToday.PM11));
 //        dailyTimer.schedule(getTaskAt(HowAreUToday.AM5), toDate(HowAreUToday.AM5));
-        LocalDateTime cur = HowAreUToday.START_TIME;
+        LocalDateTime cur = LocalDateTime.now().withMinute(0).withSecond(0).withNano(0);
         while (cur.isBefore(HowAreUToday.AM5.plusHours(1L))) {
             cur = cur.plusHours(1L);
             dailyTimer.schedule(getTaskAt(cur), toDate(cur));
