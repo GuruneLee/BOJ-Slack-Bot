@@ -3,9 +3,7 @@ package algoBot.helper.resourceReader;
 import algoBot.slack.BotSecretDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.yaml.snakeyaml.Yaml;
-
 import java.io.InputStream;
-import java.util.Map;
 
 public class YamlReader {
     public BotSecretDto readToMap(String fileName) {

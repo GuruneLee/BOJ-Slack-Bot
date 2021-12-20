@@ -39,9 +39,9 @@ public class HowAreUToday {
         logger.info("오늘 날짜는 {} 입니다", TODAY_DATE);
     }
 
-//    private static void test() {
-//        TODAY_DATE = LocalDate.now();
-//    }
+//private static void test() {
+//    TODAY_DATE = LocalDate.now();
+//}
 
     public static void setDailyTime() {
         Logger logger = LoggerFactory.getLogger(HowAreUToday.class);

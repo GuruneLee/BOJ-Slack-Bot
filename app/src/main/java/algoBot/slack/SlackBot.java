@@ -34,9 +34,10 @@ public class SlackBot {
         connect.setMethod("POST");
         connect.setHeaders(headers);
         connect.setParameters(params);
+        connect.setTimeout(5000, 5000);
 
 
-
+        //TODO response 에 ok:false 일 때 핸들링 하기
         String responseBody = connect.getResponseBody();
 
         logger.info("메시지가 발송되었습니다. : {}", message.getContent());

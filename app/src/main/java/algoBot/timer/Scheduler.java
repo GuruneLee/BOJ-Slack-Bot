@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
@@ -41,12 +43,17 @@ public class Scheduler {
         HowAreUToday.setDailyTime();
 
         // 데일리 타이머에 오늘 할 일 세팅하기 - schedule(task, time) 메서드를 사용해서 한 번만 실행
-        // FIXME 이미 지나간 시간엔 스케쥴링 하지 않게 하기
-        dailyTimer.schedule(getTaskAt(HowAreUToday.PM1), toDate(HowAreUToday.PM1));
-        dailyTimer.schedule(getTaskAt(HowAreUToday.PM7), toDate(HowAreUToday.PM7));
-        dailyTimer.schedule(getTaskAt(HowAreUToday.PM11), toDate(HowAreUToday.PM11));
-        dailyTimer.schedule(getTaskAt(HowAreUToday.AM5), toDate(HowAreUToday.AM5));
-
+//        // FIXME 이미 지나간 시간엔 스케쥴링 하지 않게 하기
+//        dailyTimer.schedule(getTaskAt(HowAreUToday.PM1), toDate(HowAreUToday.PM1));
+//        dailyTimer.schedule(getTaskAt(HowAreUToday.PM7), toDate(HowAreUToday.PM7));
+//        dailyTimer.schedule(getTaskAt(HowAreUToday.PM11), toDate(HowAreUToday.PM11));
+//        dailyTimer.schedule(getTaskAt(HowAreUToday.AM5), toDate(HowAreUToday.AM5));
+        LocalDateTime cur = HowAreUToday.START_TIME;
+        while (cur.isBefore(HowAreUToday.AM5.plusHours(1L))) {
+            cur = cur.plusHours(1L);
+            dailyTimer.schedule(getTaskAt(cur), toDate(cur));
+            System.out.println("cur = " + cur.format(DateTimeFormatter.ofPattern("dd일,HH시mm분")));
+        }
 //test();
 
     }
@@ -54,6 +61,7 @@ public class Scheduler {
 //        // 1분마다 task 등록하기
 //        LocalDateTime time = LocalDateTime.now().withSecond(0).plusMinutes(1);
 //        while (time.isBefore(HowAreUToday.START_TIME.plusDays(1))) {
+//            System.out.println("time = " + time);
 //            LocalDateTime ldt = time.plusMinutes(1);
 //            dailyTimer.schedule(getTaskAt(ldt), toDate(ldt));
 //            time = ldt;
@@ -65,9 +73,15 @@ public class Scheduler {
             @Override
             public void run() {
                 try {
-                    logger.info("{}에 할 일이 {}에 실행되었습니다.", todo.toLocalTime(), LocalTime.now());
+                    logger.info("{}에 할 일이 {}에 실행되었습니다.",
+                            todo.format(DateTimeFormatter.ofPattern("MM월dd일 HH시mm분")),
+                            LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM월dd일 HH시mm분"))
+                    );
                     List<String> beingNotSolveMembers = bojClient.crawlBeingNotSolveMembersToday();
-                    SlackMessage message = new SlackMessage(todo.toLocalTime()+"까지 안 푼 사람"+String.join(", ", beingNotSolveMembers));
+                    SlackMessage message = new SlackMessage(
+                                    todo.toLocalTime().format(DateTimeFormatter.ofPattern("HH시mm분"))
+                                            +"까지 안 푼 사람"
+                                            +String.join(", ", beingNotSolveMembers) );
                     slackBot.sendMessage(message);
                 } catch (Exception e) {
                     e.printStackTrace();
