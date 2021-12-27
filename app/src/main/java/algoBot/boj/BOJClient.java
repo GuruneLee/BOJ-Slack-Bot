@@ -6,6 +6,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -19,17 +22,14 @@ public class BOJClient {
             "rjsgh7943",
             "koderjoon",
             "koseyeon",
-            "hyj2508"
+            "hyj2508",
+            "iamwho"
     };
 
     public BOJClient() {
-//        this.members = new ArrayList<>();
     }
-//    public BOJClient(List<String> members) {
-//        this.members = new ArrayList<>(members);
-//    }
 
-    public LocalDateTime crawlLatestSolveTimeByName(String name) throws IOException {
+    public LocalDateTime crawlLatestSolveTimeByName(String name) throws IOException, URISyntaxException {
         String origin = "https://www.acmicpc.net/status";
         Map<String, String> params = new HashMap<>();
         params.put("problems_id", "");//모든문제
@@ -38,7 +38,7 @@ public class BOJClient {
         params.put("result_id", "4"); //맞았습니다
         String url = origin + "?" + ParameterStringBuilder.getParamsString(params);
 
-        Document doc = Jsoup.connect(url).get();
+        Document doc = Jsoup.parse(new URI(url).toURL(), 5000);
         Elements elements = doc.select("table#status-table>tbody>tr>td>a.show-date");
         String time = elements.first().attr("title"); //yyyy-mm-dd hh:mm:ss
 
@@ -47,26 +47,10 @@ public class BOJClient {
     }
 
     /**
-     * @param time 기준 시간 (START_TIME ~ time)
-     * @return 기준시간 까지 풀지 않은 사람
+     * @return 지금 안 푼 사람 리턴
      * @throws IOException
      */
-    public List<String> crawlBeingNotSolveMembersUntilTime(LocalDateTime time) throws IOException {
-        List<String> beingNotSolveMembers = new ArrayList<>();
-        for (String member : members) {
-            LocalDateTime lastSolve = crawlLatestSolveTimeByName(member);
-            if (!(lastSolve.isAfter(HowAreUToday.START_TIME) && lastSolve.isBefore(time))) {
-                beingNotSolveMembers.add(member);
-            }
-        }
-        return beingNotSolveMembers;
-    }
-
-    /**
-     * @return 오늘 안 푼 사람 리턴
-     * @throws IOException
-     */
-    public List<String> crawlBeingNotSolveMembersToday() throws IOException {
+    public List<String> crawlBeingNotSolveMembersToday() throws IOException, URISyntaxException {
         List<String> beingNotSolveMembers = new ArrayList<>();
         for (String member : members) {
             LocalDateTime lastSolve = crawlLatestSolveTimeByName(member);

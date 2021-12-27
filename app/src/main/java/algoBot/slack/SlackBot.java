@@ -28,7 +28,7 @@ public class SlackBot {
         headers.put("Authorization", "Bearer "+ token);
 
         Map<String, String> params = new HashMap<>();
-        params.put("channel", channelId); //bot-test
+        params.put("channel", channelId);
         params.put("text", message.getContent());
 
         connect.setMethod("POST");

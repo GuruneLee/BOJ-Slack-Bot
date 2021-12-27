@@ -18,7 +18,7 @@ public class HowAreUToday {
     public static LocalDateTime PM11;
     public static LocalDateTime AM5;
 
-    public List<LocalDateTime> getDailyTimeList() {
+    public static List<LocalDateTime> getDailyTimeList() {
         return new ArrayList<>(Arrays.asList(PM1, PM7, PM11, AM5));
     }
 
@@ -34,14 +34,8 @@ public class HowAreUToday {
             TODAY_DATE = LocalDate.now();
         }
 
-//test();
-
         logger.info("오늘 날짜는 {} 입니다", TODAY_DATE);
     }
-
-//private static void test() {
-//    TODAY_DATE = LocalDate.now();
-//}
 
     public static void setDailyTime() {
         Logger logger = LoggerFactory.getLogger(HowAreUToday.class);
@@ -57,4 +51,5 @@ public class HowAreUToday {
                         "PM1 : {}, PM7 : {}, AM1 : {}, AM6 : {}",
                 START_TIME, PM1, PM7, PM11, AM5);
     }
+
 }
