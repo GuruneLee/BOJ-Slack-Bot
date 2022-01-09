@@ -9,12 +9,10 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-// TODO 토큰, 채널 ID 를 설정파일로 분리하기
 public class SlackBot {
     final Logger logger = LoggerFactory.getLogger(SlackBot.class);
     private final HttpHelper httpHelper = new HttpHelper();
 
-    // TODO 타임아웃 등 202가 아닌 응답 핸들링하기
     public void sendMessage(SlackMessage message) throws Exception {
         BotSecretDto botSecretDto = new YamlReader().readToMap("secret.yml");
         String token = botSecretDto.token;

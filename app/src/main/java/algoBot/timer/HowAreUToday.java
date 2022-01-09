@@ -48,7 +48,7 @@ public class HowAreUToday {
 
         logger.info("오늘 시간대 세팅이 완료되었습니다.\n" +
                         "START_TIME : {}, " +
-                        "PM1 : {}, PM7 : {}, AM1 : {}, AM6 : {}",
+                        "PM1 : {}, PM7 : {}, PM11 : {}, AM6 : {}",
                 START_TIME, PM1, PM7, PM11, AM5);
     }
 

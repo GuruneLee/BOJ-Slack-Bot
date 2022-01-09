@@ -40,7 +40,7 @@ public class Scheduler {
         HowAreUToday.setDailyTime();
 
         for (LocalDateTime time : HowAreUToday.getDailyTimeList()) {
-            if (time.isBefore(LocalDateTime.now()))
+            if (time.isAfter(LocalDateTime.now()))
                 dailyTimer.schedule(getTaskAt(time), toDate(time));
         }
     }
